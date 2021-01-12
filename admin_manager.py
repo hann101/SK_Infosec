@@ -149,4 +149,42 @@ def orderMember_read(member_id):
             break
         print('No:{0}, member_id:{1}, item_id:{2}, order_qty:{3},order_price:{4},created_at{5}'.format(row[0], row[1], row[2], row[3],row[4],row[5]))
 
-# def orderBestbuyer():
+def or_Weeklybuyer():
+    or_select_Sql = '''SELECT member_id FROM _order '''
+    cursor.execute(or_select_Sql)
+    rows = cursor.fetchall()
+    for row in rows:
+        print('member_id:{0}'.format(row[0]))
+   
+    name_list = set(rows)
+    max_money = 0
+
+
+    for name in name_list:
+        #이름별
+        
+        total_money = 0
+        or_select_Sql = '''SELECT num, member_id, item_id, order_qty, order_price,created_at FROM _order WHERE member_id = %s'''
+        cursor.execute(or_select_Sql,(name))
+        
+        #총액 구하기
+        while True:
+            row = cursor.fetchone()
+            if row == None:
+                break
+            total_money += row[4]
+            
+        print('구매자:',name,'총구매 액수:',total_money)
+        if total_money>max_money:
+            bestbuyer = name
+            max_money = total_money
+        # max_money가 money 보다 크면 
+
+    #         max_money = total_money
+            
+    print('최고의 구매자:',bestbuyer,'총구매 액수:',max_money)
+
+
+
+    #c총구매액에서 최대 를 찾고 
+    #사용자 이름 추출

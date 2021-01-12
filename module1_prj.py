@@ -16,31 +16,33 @@ while True:
     #회원 로그인
     if user == 1:
         print('#'*50)
-        print('\n1. 회원 로그인 화면\n')
+        print('\n1. 회원 로그인 화면\n ')
         print('#'*50)
         login_emial = str(input('Email:'))
         login_pwd = str(input('PWD:'))
 
        #회원 로그입 접속환경
        #모든 작업이 끝나면 여기로 복귀하고 로그 아웃화면 만들어야됨...
+        
         if user_manager.user_login(login_emial,login_pwd) ==1:
-            print('#'*50)
-            print('\n1. 상품목록 조회 \n2. 상품주문\n')
-            print('#'*50)
-            user_input = int(input('입력:'))
-            
-
-            #상품목록조회
-            if user_input == 1:
-                user_manager.product_list(login_emial)
-            elif user_input == 2:
+                while True:
+                    print('#'*50)
+                    print('\n1. 상품목록 조회 \n2. 상품주문\n')
+                    print('#'*50)
+                    user_input = int(input('입력:'))
                     
-                user_or_item_id = input('상품명:')
-                user_or_qty  = int(input('주문갯수:'))
-                # or_regist_order_price = int(input('주문가격:')) 
-                user_manager.product_order(login_emial, user_or_item_id, user_or_qty)    
 
+                    #상품목록조회
+                    if user_input == 1:
+                        user_manager.product_list(login_emial)
+                    elif user_input == 2:
+                            
+                        user_or_item_id = input('상품명:')
+                        user_or_qty  = int(input('주문갯수:'))
+                        # or_regist_order_price = int(input('주문가격:')) 
+                        user_manager.product_order(login_emial, user_or_item_id, user_or_qty)    
 
+    #관리자
     elif user == 2:
         print('#'*50)
         print('\n1. 관리자 로그인 화면\n')
@@ -94,8 +96,6 @@ while True:
                         
                         admin_manager.ad_alluser_search() 
 
-                
-
                 #주문관리
                 elif admin_input == 2:
                     admin_input = 0
@@ -144,12 +144,13 @@ while True:
                             print('#'*50)
                             print('\n2.회원별 주문 목록\n \n1.주별 최다 금액 주문자 \n2.월별 최다 금액 주문자\n')
                             print('#'*50)                               
-                            sel_243 = int(input())
+                            sel_243 = int(input('입력:'))
 
                             #주별 최다 금액주문자
-                            # if sel_243 ==1: 
+                            if sel_243 ==1: 
+                                admin_manager.or_Weeklybuyer()
 
-
+                            # 월별
                             # elif sel_243 ==2: 
 
 
@@ -184,10 +185,5 @@ while True:
                     
                     admin_input = 0
 
-        # else:
+        else:
             print('접속불가')
-    #     print('1. 상품목록 조회 \n2.상품주문')
-    #     if select == 1:
-    #         print('상품목록 조회')
-    #     elif select == 2 :
-    #         print('상품주문')1
