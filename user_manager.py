@@ -27,22 +27,27 @@ def product_list(login_emial):
     sql1 = 'Select num, product_name, product_price, product_qty, created_at FROM item'
     cursor.execute(sql1)
     rows = cursor.fetchall()
+    print('상품목록')
     for row in rows:
-        print('No:{0}, Email:{1}, Price:{2}, qty:{3},Created On:{4}'.format(row[0], row[1], row[2], row[3], row[4]))
+        print('No:{0}, 상품명:{1}, 가격:{2}, 재고:{3}, 기입시간:{4}'.format(row[0], row[1], row[2], row[3], row[4]))
 
 #상품주문
 def product_order(login_emial,user_or_item_id,user_or_qty):
     #주문 갯수 만큼 기존 주문리스트 재고에서 빼준다,
 
+    #주문한 상품의 갯수에 따른 총 가격 계산
+    #아이템 아이디 반드시 일치해야됨.. 오타방지만들어야
     #이게 error만듬 (%s빼먹음 ->)
     or_select_Sql = 'Select num, product_name, product_price, product_qty, created_at FROM item WHERE product_name = %s '
     cursor.execute(or_select_Sql,(user_or_item_id))
+    # try:
     while True:
             row = cursor.fetchone()
             if row == None:
                 break
             user_or_price = row[2] *user_or_qty
-    
+    # except UnboundLocalError:
+    #     print('정확한 상품명을 입력하시오.')
     
     
     #주문등록
@@ -52,12 +57,17 @@ def product_order(login_emial,user_or_item_id,user_or_qty):
     cursor.execute(sql1)
     cursor.execute(or_insertSql,(login_emial, user_or_item_id, user_or_qty, user_or_price))
     conn.commit()
-    #등록확인(없어도됨)
-    sql1 = 'Select num, member_id, item_id, order_qty, order_price, created_at FROM _order'
-    cursor.execute(sql1)
-    rows = cursor.fetchall()
     
-    for row in rows:
-        print('주문번호:{0}, 회원 Email:{1}, 상품명:{2}, 주문갯수:{3}, 주문 총액:{4}, 주문시간:{5} '.format(row[0], row[1], row[2], row[3], row[4],row[5]))
-    print('등록완료')
+    #주문정보확인(사용자)
+    or_select_Sql = '''SELECT num, member_id, item_id, order_qty, order_price,created_at FROM _order WHERE member_id = %s'''
+    cursor.execute(or_select_Sql,(login_emial))
+    while True:
+        row = cursor.fetchone()
+        if row == None:
+            break
+        print('No:{0}, member_id:{1}, item_id:{2}, order_qty:{3},order_price:{4},created_at{5}'.format(row[0], row[1], row[2], row[3],row[4],row[5]))
+
+
+
+
     
