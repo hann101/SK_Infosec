@@ -1,5 +1,5 @@
 import pymysql
-conn = pymysql.connect(host='127.0.0.1',user='root',password= '',port=3306,db='mydb',charset='utf8')
+conn = pymysql.connect(host='172.17.0.2',user='root',password= '',port=3306,db='mydb',charset='utf8')
 cursor = conn.cursor()
 
 #사용자 로그인 화면
